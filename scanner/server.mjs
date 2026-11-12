@@ -1,0 +1,20 @@
+import http from 'node:http';
+import {createHash,timingSafeEqual} from 'node:crypto';
+import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {fileTypeFromBuffer} from 'file-type';
+import sharp from 'sharp';
+const exec=promisify(execFile),secret=process.env.SCANNER_TOKEN;
+if(!secret||secret.length<32)throw new Error('Configure SCANNER_TOKEN com ao menos 32 caracteres aleatórios.');
+let active=0;
+const server=http.createServer(async(req,res)=>{res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');const given=Buffer.from(req.headers.authorization||''),expected=Buffer.from('Bearer '+secret);if(req.method!=='POST'||req.url!=='/scan'||given.length!==expected.length||!timingSafeEqual(given,expected)){res.writeHead(401).end('{}');return}if(active>=2){res.writeHead(503).end('{}');return}active++;let dir;
+try{const max=req.headers['x-expected-kind']==='cover'?2*1024*1024:20*1024*1024;const chunks=[];let length=0;for await(const c of req){length+=c.length;if(length>max)throw new Error('size');chunks.push(c)}const bytes=Buffer.concat(chunks),type=await fileTypeFromBuffer(bytes);if(!type||!['application/pdf','image/png','image/jpeg'].includes(type.mime))throw new Error('type');dir=await mkdtemp(join(tmpdir(),'ebook-scan-'));const path=join(dir,'untrusted');await writeFile(path,bytes,{mode:0o600});
+await exec('clamdscan',['--stream','--no-summary',path],{timeout:30000,maxBuffer:4096});
+if(type.mime==='application/pdf'){await exec('qpdf',['--check',path],{timeout:8000,maxBuffer:32768});const {stdout}=await exec('qpdf',['--json',path],{timeout:12000,maxBuffer:32*1024*1024});const parsed=JSON.parse(stdout);if(parsed.encrypt?.encrypted)throw new Error('encrypted');const forbidden=new Set(['/JavaScript','/JS','/Launch','/EmbeddedFile','/EmbeddedFiles','/OpenAction','/AA','/RichMedia','/XFA','/AcroForm','/SubmitForm','/GoToR','/URI']);function walk(value){if(typeof value==='string'&&forbidden.has(value))throw new Error('active PDF');if(value&&typeof value==='object')for(const [key,item] of Object.entries(value)){if(forbidden.has(key))throw new Error('active PDF');walk(item)}}walk(parsed);
+}else{const meta=await sharp(bytes,{limitInputPixels:16000000,failOn:'warning'}).metadata();if(!meta.width||!meta.height||meta.width>8000||meta.height>8000||(meta.pages||1)>1)throw new Error('image dimensions');}
+res.end(JSON.stringify({clean:true,sha256:createHash('sha256').update(bytes).digest('hex'),mime:type.mime}));
+}catch{res.writeHead(422).end(JSON.stringify({clean:false}));}finally{active--;if(dir)await rm(dir,{recursive:true,force:true})}});
+server.requestTimeout=50000;server.headersTimeout=10000;server.listen(Number(process.env.PORT||8080),'0.0.0.0');
