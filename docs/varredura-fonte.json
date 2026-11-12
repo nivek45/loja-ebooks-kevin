@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-18T02:42:29.139Z",
+  "clientAssetsInspected": 28,
+  "publicFiles": 2,
+  "checks": [
+    "no server secret names or encrypted payer payload in client assets",
+    "no eval/dangerouslySetInnerHTML in application pages",
+    "no private ebook/database/environment files in public",
+    "D1 and private R2 binding present"
+  ],
+  "limitations": "Pattern scan, not penetration testing or a guarantee of absence of vulnerabilities."
+}
