@@ -1,0 +1,81 @@
+
+> sites-project@0.1.0 test
+> node scripts/test.mjs
+
+✔ login rate limit: tenth wrong password accepted for verification, eleventh blocked even with alternate forwarded headers (1831.2429ms)
+✔ IP quota covers different account names: request 31 blocked (2505.3167ms)
+✔ logout clears cookies even after auth quota saturation (2830.8064ms)
+✔ provider revocation failure returns partial logout and records alert (2120.2252ms)
+✔ login rotates supplied cookie; production cookie flags and password length (2404.7875ms)
+✔ password recovery returns same message for existing and absent account fixtures (2174.2586ms)
+✔ forged asymmetric JWT signature rejected by actual SDK verification (2277.9901ms)
+✔ unsigned JWT is not accepted when provider rejects it (2066.9904ms)
+✔ SQL payloads in IDs, pagination, profile fields and headers do not change DB (3090.5592ms)
+✔ login SQL payloads are rejected or forwarded as password text without local SQL evaluation (2703.2481ms)
+✔ stored XSS payload is stored as data and escaped by real React product component (2393.9491ms)
+✔ deletion URL and HTTP method probes have no deletion behavior (2312.4558ms)
+✔ cross-origin and absent origin reject all available auth mutations (2312.6965ms)
+✔ body and cookie role spoofing never grant admin permissions (1849.2969ms)
+{"event":"request_failed","trace":"9557b5e1-60fc-439b-be15-9a182a8e0efb"}
+✔ unexpected DB errors do not leak SQL or stack in response (1675.61ms)
+✔ logout without provider configuration still clears cookies (1671.3389ms)
+{"event":"session_revocation_alert_failed"}
+✔ logout with failed rate storage and alert storage still clears cookies (1646.2386ms)
+✔ confirmed remote logout reports confirmation without exposing tokens (1642.1347ms)
+✔ password update reports failed global revocation and clears local session (1748.2193ms)
+✔ logout remote quota saturation cannot prevent local cookie clearing (1835.0165ms)
+✔ stalled auth provider cannot hold logout indefinitely (11708.6772ms)
+✔ Supabase SDK signup/login/recovery/verification/logout contract and HttpOnly cookies (1657.32ms)
+✔ login return path only accepts internal account and purchase routes (1.2103ms)
+✔ parallel expired requests share one refresh and replay their requests (49.8035ms)
+✔ HTML and network failures produce readable errors without internal response content (1.2507ms)
+✔ native CAPTCHA is required and passed to Supabase for all public credential flows (1671.6417ms)
+✔ alert delivery failure remains queued and retry uses the same idempotency key (2008.6277ms)
+✔ provider configuration inspector is read-only and never returns secrets (1.9712ms)
+✔ MFA challenge contract rejects wrong codes and writes the provider session only on success (2018.8726ms)
+✔ expired or reused recovery tokens rejected by provider never create a session (1816.1671ms)
+✔ price injection is rejected; legitimate amount comes from DB and is snapshotted (1658.3925ms)
+✔ one customer cannot read or reconcile another customer order (1768.491ms)
+✔ every administrative action refuses ordinary users, even aal2 and supplied admin fields (2032.0904ms)
+✔ administrator needs both allowlist and verified MFA (2553.1508ms)
+✔ fake webhook never queries provider or releases a file (2850.1622ms)
+✔ mismatched provider record blocked {"transaction_amount":0.01} (2208.5034ms)
+✔ mismatched provider record blocked {"currency_id":"USD"} (1964.4468ms)
+✔ mismatched provider record blocked {"collector_id":666} (2403.2068ms)
+✔ mismatched provider record blocked {"live_mode":true} (2132.7165ms)
+✔ mismatched provider record blocked {"external_reference":"wrong"} (1975.535ms)
+✔ mismatched provider record blocked {"metadata":{"order_id":"wrong"}} (1968.4175ms)
+✔ mismatched provider record blocked {"payment_method_id":"credit_card"} (1915.8876ms)
+✔ mismatched provider record blocked {"id":992} (2003.484ms)
+✔ duplicate signed notifications do not duplicate events or delivery (2131.0654ms)
+✔ creation idempotency avoids duplicate charges and orders (1896.9106ms)
+✔ pending does not allow downloads (2298.6725ms)
+✔ cancelled does not allow downloads (2611.1301ms)
+✔ expired does not allow downloads (2524.2828ms)
+✔ paid flow produces an authenticated one-use download; other accounts and expired links fail (2825.8779ms)
+✔ refund revokes already issued links and out-of-order approval cannot restore access (2870.2279ms)
+✔ provider outage never marks a payment approved and retry reuses the original idempotency key (2598.7384ms)
+✔ cross-origin mutations are rejected, and raw private fields are not returned (2303.782ms)
+✔ download issuance has a persistent quota (3147.1951ms)
+✔ upload is fail-closed when scanner is not configured (2129.3773ms)
+(node:1520) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local D1 fixture export restores relational data and PDF checksum (2530.1488ms)
+✔ unauthenticated API request and forged session cannot download (2806.9676ms)
+✔ parallel checkout retries have one database order and one provider idempotency key (4618.6951ms)
+✔ authoritative cancellation after approval revokes access (3769.1429ms)
+✔ refund at the same provider timestamp is conservative and terminal (5414.9529ms)
+✔ older purchases remain reachable through owner-scoped pagination (6475.0538ms)
+✔ expired pending payment advances even when provider timestamp is unchanged (3560.2434ms)
+✔ expired failed creation is closed by maintenance without another charge (3609.3879ms)
+✔ login readiness requires rate limiting and a valid configured origin (2269.85ms)
+✔ admin readiness returns configuration presence without credential values (2243.2043ms)
+✔ invalid CPF has actionable message without creating a charge (2011.2351ms)
+ℹ tests 65
+ℹ suites 0
+ℹ pass 65
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161317.791

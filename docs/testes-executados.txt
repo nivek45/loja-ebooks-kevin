@@ -1,0 +1,52 @@
+HISTORICO: saida original de 10/09/2026. A nova execucao de 17/09/2026 passou 39 testes, zero falhas; consulte REVISAO.md e VALIDACAO.md.
+
+
+> sites-project@0.1.0 test
+> node scripts/test.mjs
+
+✔ Supabase SDK signup/login/recovery/verification/logout contract and HttpOnly cookies (837.4601ms)
+✔ price injection is rejected; legitimate amount comes from DB and is snapshotted (842.3196ms)
+✔ one customer cannot read or reconcile another customer order (781.6258ms)
+✔ every administrative action refuses ordinary users, even aal2 and supplied admin fields (699.24ms)
+✔ administrator needs both allowlist and verified MFA (606.2604ms)
+✔ fake webhook never queries provider or releases a file (742.8956ms)
+✔ mismatched provider record blocked {"transaction_amount":0.01} (782.2697ms)
+✔ mismatched provider record blocked {"currency_id":"USD"} (768.7492ms)
+✔ mismatched provider record blocked {"collector_id":666} (754.5018ms)
+✔ mismatched provider record blocked {"live_mode":true} (800.3386ms)
+✔ mismatched provider record blocked {"external_reference":"wrong"} (822.2583ms)
+✔ mismatched provider record blocked {"metadata":{"order_id":"wrong"}} (832.9436ms)
+✔ mismatched provider record blocked {"payment_method_id":"credit_card"} (774.1692ms)
+✔ mismatched provider record blocked {"id":992} (768.1602ms)
+✔ duplicate signed notifications do not duplicate events or delivery (877.8813ms)
+✔ creation idempotency avoids duplicate charges and orders (751.0049ms)
+✔ pending does not allow downloads (740.2746ms)
+✔ cancelled does not allow downloads (950.8137ms)
+✔ expired does not allow downloads (769.606ms)
+✔ paid flow produces an authenticated one-use download; other accounts and expired links fail (945.0285ms)
+✔ refund revokes already issued links and out-of-order approval cannot restore access (977.6362ms)
+✔ provider outage never marks a payment approved and retry reuses the original idempotency key (771.7378ms)
+✔ cross-origin mutations are rejected, and raw private fields are not returned (716.9266ms)
+✔ download issuance has a persistent quota (1178.3429ms)
+✔ upload is fail-closed when scanner is not configured (636.4588ms)
+(node:28980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local D1 fixture export restores relational data and PDF checksum (820.0666ms)
+✔ unauthenticated API request and forged session cannot download (797.3444ms)
+✔ parallel checkout retries have one database order and one provider idempotency key (891.0435ms)
+✔ authoritative cancellation after approval revokes access (942.8983ms)
+✔ refund at the same provider timestamp is conservative and terminal (972.6337ms)
+✔ older purchases remain reachable through owner-scoped pagination (2177.6295ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28268.5396
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.19.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.19.1
+npm notice To update run: npm install -g npm@11.19.1
+npm notice
